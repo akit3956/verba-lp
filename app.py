@@ -41,13 +41,7 @@ st.write("Verbaはブロックチェーン技術を活用し、学習履歴を�
 
 # トークノミクス
 st.subheader("💎 トークノミクス (Verba Token)")
-metric_col1, metric_col2, metric_col3 = st.columns(3)
-with metric_col1:
-    st.metric(label="トークン名", value="$VRB")
-with metric_col2:
-    st.metric(label="総発行枚数", value="1億枚", delta="希少性")
-with metric_col3:
-    st.metric(label="上場予定価格", value="$0.01", delta="目標")
+st.metric(label="トークン名", value="$VRB")
 
 st.markdown("""
 - **稼ぐ (Earn)**: クイズに正解する、毎日ログインする、友達を紹介する。
