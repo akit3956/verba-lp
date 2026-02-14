@@ -1,91 +1,91 @@
 import streamlit as st
 
-# ページ設定
+# Page Configuration
 st.set_page_config(
-    page_title="Verba - 次世代の語学アプリ",
+    page_title="Verba - The Next Gen Language App",
     page_icon="🇯🇵",
     layout="wide"
 )
 
-# タイトルエリア
-st.title("🇯🇵 日本語教師 × Web3 × AI")
-st.header("次世代の語学アプリ：「学んで稼ぐ」")
+# Title Area
+st.title("🇯🇵 Japanese Teacher x Web3 x AI")
+st.header("Next Gen Language App: 'Learn to Earn'")
 
-# お知らせボックス
-st.info("💡 現在、開発資金を集めるためにファウンダーズパックの事前予約を受け付けています。")
+# Notification Box
+st.info("💡 We are currently accepting pre-orders for the Founder's Pack to raise development funds.")
 
-# 自己紹介とプロジェクト概要
-st.subheader("👋 こんにちは、アキです。元日本語教師です。")
+# Introduction
+st.subheader("👋 Hi, I'm Aki. I'm a former Japanese teacher.")
 st.write("""
-「お金がない」や「やる気がなくなった」という理由で、日本語を学ぶ夢をあきらめてしまう学生を数多く見てきました。
+I have seen many students give up on their dream of learning Japanese because they 'didn't have money' or 'lost motivation'.
 
-そこで、最新のAIとブロックチェーン技術を活用したソリューションを構築することにしました。
-**勉強すればするほど報酬（トークン）がもらえるアプリです。**
+So, I decided to build a solution using the latest AI and blockchain technology.
+**An app where the more you study, the more rewards (tokens) you earn.**
 
-**プロジェクト名：「Verba（VRB）」**
+**Project Name: 'Verba (VRB)'**
 
-言葉（Verba）を学ぶことはあなたの人生に役立ちます。一緒にこの世界を築きましょう。
+Learning words (Verba) helps your life. Let's build this world together.
 """)
 
 st.divider()
 
-# 問題提起
-st.subheader("😤 なぜ日本語学習で挫折するのか？")
-st.markdown("##### 「お金がない」「やる気が出ない」「教科書がつまらない」")
-st.write("従来の学習方法は高額で、すぐに退屈になってしまいます。しかしVerbaは違います。")
+# Problem
+st.subheader("😤 Why do people fail at learning Japanese?")
+st.markdown("##### 'No Money', 'No Motivation', 'Boring Textbooks'")
+st.write("Traditional learning methods are expensive and quickly become boring. But Verba is different.")
 
-# 解決策：Verba (Learn-to-Earn)
-st.subheader("💡 解決策：Verba (Learn-to-Earn)")
-st.info("勉強すればするほど、仮想通貨（$VRB）が貯まる。")
-st.write("Verbaはブロックチェーン技術を活用し、学習履歴を記録。あなたの努力を資産に変えます。")
+# Solution: Verba (Learn-to-Earn)
+st.subheader("💡 Solution: Verba (Learn-to-Earn)")
+st.info("The more you study, the more cryptocurrency ($VRB) you earn.")
+st.write("Verba uses blockchain technology to record your learning history. Turn your efforts into assets.")
 
-# トークノミクス
-st.subheader("💎 トークノミクス (Verba Token)")
-st.metric(label="トークン名", value="$VRB")
+# Tokenomics
+st.subheader("💎 Tokenomics (Verba Token)")
+st.metric(label="Token Name", value="$VRB")
 
 st.markdown("""
-- **稼ぐ (Earn)**: クイズに正解する、毎日ログインする、友達を紹介する。
-- **使う (Burn)**: 特別なAIキャラクター、プレミアム教材、JLPT模擬試験。
+- **Earn**: Answer quizzes correctly, login daily, refer friends.
+- **Burn**: Special AI characters, premium materials, JLPT mock exams.
 """)
 
 st.divider()
 
-# ロードマップセクション
-st.subheader("🗺️ ロードマップ: 私たちが築く未来")
-st.write("あなたのサポート（30ドル）がこの旅の原動力になります。")
+# Roadmap Section
+st.subheader("🗺️ Roadmap: The Future We Build")
+st.write("Your support ($30) will be the driving force of this journey.")
 
-# 4つのカラムでロードマップを表示
+# Roadmap Columns
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.markdown("### 🚩 2026年第1四半期")
-    st.caption("現在の段階")
-    st.success("✅ プロジェクト開始")
-    st.success("✅ 創業者セール")
+    st.markdown("### 🚩 Q1 2026")
+    st.caption("Current Stage")
+    st.success("✅ Project Start")
+    st.success("✅ Founder Sale")
 
 with col2:
-    st.markdown("### 🛠️ 2026年第2四半期")
-    st.caption("発達")
-    st.info("📱 ベータ版アプリのリリース")
-    st.write("創設者のみを対象にプロトタイプアプリをリリース")
+    st.markdown("### 🛠️ Q2 2026")
+    st.caption("Development")
+    st.info("📱 Beta App Release")
+    st.write("Release prototype app for founders only")
 
 with col3:
-    st.markdown("### 🌑 2026年第3四半期")
-    st.caption("トークン")
-    st.info("💰 VRB エアドロップ")
-    st.write("早期支援者に 10,000 VRB トークンを配布")
+    st.markdown("### 🌑 Q3 2026")
+    st.caption("Token")
+    st.info("💰 VRB Airdrop")
+    st.write("Distribute 10,000 VRB tokens to early supporters")
 
 with col4:
-    st.markdown("### 🚀 2026年第4四半期")
-    st.caption("グローバル")
-    st.warning("🌏 公式リリース")
-    st.write("DEX（分散型取引所）に公開・上場。")
+    st.markdown("### 🚀 Q4 2026")
+    st.caption("Global")
+    st.warning("🌏 Official Release")
+    st.write("Public listing on DEX (Decentralized Exchange).")
 
 st.divider()
 
-# ファウンダーズパック (CTA)
-st.header("⚡ 今すぐ参加：ファウンダーズパック")
-st.warning("⚠️ このオファーは先着100名様限定です。上場時に価値が3倍以上になる可能性があります。")
+# Founder's Pack (CTA)
+st.header("⚡ Join Now: Founder's Pack")
+st.warning("⚠️ This offer is limited to the first 100 people. The value could triple or more upon listing.")
 
 col_cta_left, col_cta_right = st.columns([1, 1])
 
@@ -114,7 +114,7 @@ with col_cta_right:
     st.write("Special Price")
     st.markdown("## $30.00 USD <span style='color:green; font-size:0.6em; background-color:#e6ffe6; padding:2px 5px; border-radius:5px;'>↑ Limited Time Offer</span>", unsafe_allow_html=True)
     
-    # PayPal Link: Inferred from image "@akis3956" -> https://paypal.me/akis3956/30USD
+    # PayPal Link
     paypal_url = "https://paypal.me/akis3956/30USD" 
     
     # Custom PayPal Button (Yellow)
@@ -137,16 +137,15 @@ with col_cta_right:
         </div>
     </a>
     """, unsafe_allow_html=True)
-    st.caption("※PayPalによる安全な支払い")
-    st.caption("※支払先: Akis Create (@akis3956)")
+    st.caption("*Secure payment via PayPal")
+    st.caption("*Recipient: Akis Create (@akis3956)")
 
 st.divider()
 
 # FAQ
-st.subheader("❓ よくある質問")
-with st.expander("Q: 本当に稼げるのですか？"):
-    st.write("A: はい。学びながらトークンを獲得できます。獲得したトークンは将来的に取引所で売買可能になる予定です。")
+st.subheader("❓ FAQ")
+with st.expander("Q: Can I really earn?"):
+    st.write("A: Yes. You can earn tokens while learning. The earned tokens are planned to be tradable on exchanges in the future.")
 
-with st.expander("Q: 日本語教師アキとは誰ですか？"):
-    st.write("A: 私はプロの日本語教師です。多くの学生が金銭的な理由で学習を諦めるのを見て、このプロジェクトを立ち上げました。")
-
+with st.expander("Q: Who is Japanese Teacher Aki?"):
+    st.write("A: I am a professional Japanese teacher. I started this project after seeing many students give up learning for financial reasons.")
