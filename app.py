@@ -112,7 +112,9 @@ with col_cta_right:
     """)
     
     st.markdown("<br>", unsafe_allow_html=True)
-    st.info("💡 利用規約とプライバシーポリシーの全文は、サイドバーの『Terms & Privacy』ページからご確認ください。(Please check the full text from the 'Terms & Privacy' page in the sidebar.)")
+    st.info("💡 決済の前に、利用規約とプライバシーポリシーをご確認ください。")
+    st.page_link("pages/2_📜_Terms_&_Privacy.py", label="利用規約とプライバシーポリシーの全文を読む (Read Full Terms)", icon="📜")
+    st.markdown("<br>", unsafe_allow_html=True)
     
     agree = st.checkbox("利用規約とプライバシーポリシーに同意する (I agree to the Terms of Service and Privacy Policy)")
     
