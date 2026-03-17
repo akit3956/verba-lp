@@ -113,8 +113,8 @@ with col_cta_right:
     
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("<br>", unsafe_allow_html=True)
-    st.info("💡 決済の前に、利用規約とプライバシーポリシーを必ずご確認ください。")
-    st.page_link("pages/2_📜_Terms_&_Privacy.py", label="利用規約とプライバシーポリシーの全文をサイドバーから確認する", icon="📜")
+    st.info("💡 Please review the Terms of Service and Privacy Policy before proceeding.")
+    st.page_link("pages/2_📜_Terms_&_Privacy.py", label="Read the full Terms of Service and Privacy Policy", icon="📜")
     st.markdown("<br>", unsafe_allow_html=True)
     
     # Session state to handle payment success visibility
@@ -122,7 +122,7 @@ with col_cta_right:
         st.session_state.payment_success = False
 
     if not st.session_state.payment_success:
-        agree = st.checkbox("利用規約とプライバシーポリシーに同意します / I agree to the Terms of Service and Privacy Policy")
+        agree = st.checkbox("I agree to the Terms of Service and Privacy Policy")
         
         if agree:
             # Official PayPal Live HTML Form Button
@@ -139,7 +139,7 @@ with col_cta_right:
             """, unsafe_allow_html=True)
             st.caption("*Recipient: Akis Create (@akis3956)")
         else:
-            st.warning("⚠️ 決済に進むには同意が必要です。(Agreement is required to proceed.)")
+            st.warning("⚠️ Agreement is required to proceed.")
     
     # Check for success in URL parameters (Simulated for Streamlit)
     query_params = st.query_params
@@ -147,15 +147,15 @@ with col_cta_right:
         st.session_state.payment_success = True
         st.balloons()
         st.success("""
-        ### 🎉 決済ありがとうございます！
-        以下の手順で特典を受け取ってください：
+        ### 🎉 Thank you for your support!
+        Please follow these steps to claim your rewards:
         
-        1. **Discordに参加**: [Discord招待リンク](https://discord.gg/example) （コミュニティで進捗を共有します）
-        2. **会員登録**: 以下の専用ページから登録を完了してください。
+        1. **Join Discord**: [Discord Invite Link](https://discord.gg/example) (We share updates here)
+        2. **Register**: Complete your registration at the dedicated page below.
         
-        [👉 会員登録ページはこちら](http://localhost:8501/Register)
+        [👉 Click here to Register](http://localhost:8501/Register)
         """)
-        if st.button("戻る (Back)"):
+        if st.button("Back"):
             st.query_params.clear()
             st.session_state.payment_success = False
             st.rerun()

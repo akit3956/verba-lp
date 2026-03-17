@@ -63,6 +63,6 @@ st.markdown(f'<div style="height: 500px; overflow-y: scroll; padding: 15px; bord
 st.markdown("---")
 col1, col2 = st.columns([1, 1])
 with col1:
-    st.page_link("app.py", label="メインページに戻る (Back to Main)", icon="🏠")
+    st.page_link("app.py", label="Back to Main Page", icon="🏠")
 with col2:
     st.info("Please contact support if you have any questions regarding these terms.")
