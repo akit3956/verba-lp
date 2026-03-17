@@ -111,21 +111,29 @@ with col_cta_right:
     - ❤️ **Deepest Gratitude from Aki**
     """)
     
-    # Official PayPal Live HTML Form Button
-    st.markdown("""
-    <div style="text-align: center; margin-top: 20px; margin-bottom: 10px;">
-      <style>.pp-B6NDGVHL4H7B2{text-align:center;border:none;border-radius:0.25rem;min-width:11.625rem;padding:0 2rem;height:2.625rem;font-weight:bold;background-color:#FFD140;color:#000000;font-family:"Helvetica Neue",Arial,sans-serif;font-size:1rem;line-height:1.25rem;cursor:pointer;}</style>
-      <form action="https://www.paypal.com/ncp/payment/B6NDGVHL4H7B2" method="post" target="_blank" style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;">
-        <input class="pp-B6NDGVHL4H7B2" type="submit" value="👉 Get Founder's Pack" />
-        <input type="hidden" name="return" value="http://localhost:8503/Register" />
-        <img src=https://www.paypalobjects.com/images/Debit_Credit_APM.svg alt="cards" />
-        <section style="font-size: 0.75rem;"> Powered by <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-wordmark-color.svg" alt="paypal" style="height:0.875rem;vertical-align:middle;"/></section>
-      </form>
-    </div>
-    """, unsafe_allow_html=True)
-        
-    st.caption("*決済完了後に「販売サイトへ戻る」を押すと会員登録画面に移動します")
-    st.caption("*Recipient: Akis Create (@akis3956)")
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.info("💡 利用規約とプライバシーポリシーの全文は、サイドバーの『Terms & Privacy』ページからご確認ください。(Please check the full text from the 'Terms & Privacy' page in the sidebar.)")
+    
+    agree = st.checkbox("利用規約とプライバシーポリシーに同意する (I agree to the Terms of Service and Privacy Policy)")
+    
+    if agree:
+        # Official PayPal Live HTML Form Button
+        st.markdown("""
+        <div style="text-align: center; margin-top: 20px; margin-bottom: 10px;">
+          <style>.pp-B6NDGVHL4H7B2{text-align:center;border:none;border-radius:0.25rem;min-width:11.625rem;padding:0 2rem;height:2.625rem;font-weight:bold;background-color:#FFD140;color:#000000;font-family:"Helvetica Neue",Arial,sans-serif;font-size:1rem;line-height:1.25rem;cursor:pointer;}</style>
+          <form action="https://www.paypal.com/ncp/payment/B6NDGVHL4H7B2" method="post" target="_blank" style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;">
+            <input class="pp-B6NDGVHL4H7B2" type="submit" value="👉 Get Founder's Pack" />
+            <input type="hidden" name="return" value="http://localhost:8503/Register" />
+            <img src=https://www.paypalobjects.com/images/Debit_Credit_APM.svg alt="cards" />
+            <section style="font-size: 0.75rem;"> Powered by <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-wordmark-color.svg" alt="paypal" style="height:0.875rem;vertical-align:middle;"/></section>
+          </form>
+        </div>
+        """, unsafe_allow_html=True)
+            
+        st.caption("*決済完了後に「販売サイトへ戻る」を押すと会員登録画面に移動します")
+        st.caption("*Recipient: Akis Create (@akis3956)")
+    else:
+        st.warning("決済へ進むには、利用規約およびプライバシーポリシーへの同意が必要です。(Please agree to the terms to proceed.)")
 
 st.divider()
 
