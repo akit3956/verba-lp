@@ -11,11 +11,11 @@ st.set_page_config(page_title="Register - Verba", page_icon="📝", layout="cent
 # Initialize database
 db.init_db()
 
-st.title("📝 アカウント登録 (Register)")
+st.title("📝 会員登録 (Member Registration)")
 
-st.success("""
-🎉 **Payment Successful! Welcome to the Verba Founders!**  
-🎉 **決済完了！Verbaファウンダーへのご参加ありがとうございます！**
+st.info("""
+🎉 **Founder's Packへのご参加ありがとうございます！**  
+決済が完了しました。以下のステップに従って、特典の受け取りとアカウント作成を行ってください。
 """)
 
 st.markdown("""

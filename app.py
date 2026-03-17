@@ -112,30 +112,53 @@ with col_cta_right:
     """)
     
     st.markdown("<br>", unsafe_allow_html=True)
-    st.info("💡 決済の前に、利用規約とプライバシーポリシーをご確認ください。")
-    st.page_link("pages/2_📜_Terms_&_Privacy.py", label="利用規約とプライバシーポリシーの全文を読む (Read Full Terms)", icon="📜")
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.info("💡 決済の前に、利用規約とプライバシーポリシーを必ずご確認ください。")
+    st.page_link("pages/2_📜_Terms_&_Privacy.py", label="利用規約とプライバシーポリシーの全文をサイドバーから確認する", icon="📜")
     st.markdown("<br>", unsafe_allow_html=True)
     
-    agree = st.checkbox("利用規約とプライバシーポリシーに同意する (I agree to the Terms of Service and Privacy Policy)")
+    # Session state to handle payment success visibility
+    if "payment_success" not in st.session_state:
+        st.session_state.payment_success = False
+
+    if not st.session_state.payment_success:
+        agree = st.checkbox("利用規約とプライバシーポリシーに同意します / I agree to the Terms of Service and Privacy Policy")
+        
+        if agree:
+            # Official PayPal Live HTML Form Button
+            st.markdown("""
+            <div style="text-align: center; margin-top: 20px; margin-bottom: 10px;">
+              <style>.pp-B6NDGVHL4H7B2{text-align:center;border:none;border-radius:0.25rem;min-width:11.625rem;padding:0 2rem;height:2.625rem;font-weight:bold;background-color:#FFD140;color:#000000;font-family:"Helvetica Neue",Arial,sans-serif;font-size:1rem;line-height:1.25rem;cursor:pointer;}</style>
+              <form action="https://www.paypal.com/ncp/payment/B6NDGVHL4H7B2" method="post" target="_blank" style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;">
+                <input class="pp-B6NDGVHL4H7B2" type="submit" value="👉 Get Founder's Pack" />
+                <input type="hidden" name="return" value="http://localhost:8501/?status=success" />
+                <img src=https://www.paypalobjects.com/images/Debit_Credit_APM.svg alt="cards" />
+                <section style="font-size: 0.75rem;"> Powered by <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-wordmark-color.svg" alt="paypal" style="height:0.875rem;vertical-align:middle;"/></section>
+              </form>
+            </div>
+            """, unsafe_allow_html=True)
+            st.caption("*Recipient: Akis Create (@akis3956)")
+        else:
+            st.warning("⚠️ 決済に進むには同意が必要です。(Agreement is required to proceed.)")
     
-    if agree:
-        # Official PayPal Live HTML Form Button
-        st.markdown("""
-        <div style="text-align: center; margin-top: 20px; margin-bottom: 10px;">
-          <style>.pp-B6NDGVHL4H7B2{text-align:center;border:none;border-radius:0.25rem;min-width:11.625rem;padding:0 2rem;height:2.625rem;font-weight:bold;background-color:#FFD140;color:#000000;font-family:"Helvetica Neue",Arial,sans-serif;font-size:1rem;line-height:1.25rem;cursor:pointer;}</style>
-          <form action="https://www.paypal.com/ncp/payment/B6NDGVHL4H7B2" method="post" target="_blank" style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;">
-            <input class="pp-B6NDGVHL4H7B2" type="submit" value="👉 Get Founder's Pack" />
-            <input type="hidden" name="return" value="http://localhost:8503/Register" />
-            <img src=https://www.paypalobjects.com/images/Debit_Credit_APM.svg alt="cards" />
-            <section style="font-size: 0.75rem;"> Powered by <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-wordmark-color.svg" alt="paypal" style="height:0.875rem;vertical-align:middle;"/></section>
-          </form>
-        </div>
-        """, unsafe_allow_html=True)
-            
-        st.caption("*決済完了後に「販売サイトへ戻る」を押すと会員登録画面に移動します")
-        st.caption("*Recipient: Akis Create (@akis3956)")
-    else:
-        st.warning("決済へ進むには、利用規約およびプライバシーポリシーへの同意が必要です。(Please agree to the terms to proceed.)")
+    # Check for success in URL parameters (Simulated for Streamlit)
+    query_params = st.query_params
+    if query_params.get("status") == "success" or st.session_state.payment_success:
+        st.session_state.payment_success = True
+        st.balloons()
+        st.success("""
+        ### 🎉 決済ありがとうございます！
+        以下の手順で特典を受け取ってください：
+        
+        1. **Discordに参加**: [Discord招待リンク](https://discord.gg/example) （コミュニティで進捗を共有します）
+        2. **会員登録**: 以下の専用ページから登録を完了してください。
+        
+        [👉 会員登録ページはこちら](http://localhost:8501/Register)
+        """)
+        if st.button("戻る (Back)"):
+            st.query_params.clear()
+            st.session_state.payment_success = False
+            st.rerun()
 
 st.divider()
 
