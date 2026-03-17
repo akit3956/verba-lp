@@ -61,4 +61,8 @@ Users may request the deletion of their accounts and personal information. Howev
 st.markdown(f'<div style="height: 500px; overflow-y: scroll; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9; color: #333;">{text}</div>', unsafe_allow_html=True)
 
 st.markdown("---")
-st.info("Please contact support if you have any questions regarding these terms.")
+col1, col2 = st.columns([1, 1])
+with col1:
+    st.page_link("app.py", label="メインページに戻る (Back to Main)", icon="🏠")
+with col2:
+    st.info("Please contact support if you have any questions regarding these terms.")
