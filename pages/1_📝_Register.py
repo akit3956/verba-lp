@@ -25,40 +25,43 @@ if is_success:
 else:
     st.info("新規アカウントを作成してください。")
 
-st.markdown("""
-Thank you for your support, Aki and the team are thrilled to have you! Please follow the 3 steps below to claim your Founder's Pack rewards:  
-サポートありがとうございます！以下の3つのステップで、ファウンダー特典を受け取ってください。
-
----
-
-### 1️⃣ Join the Exclusive Discord Community (限定コミュニティに参加)
-Join our Discord server to get early access to the Beta app and chat with the team!  
-まずは以下のリンクから、ファウンダー限定のDiscordサーバーに参加してください！ベータ版のテストやフィードバックはここで行います。  
-👉 [💡 **Discordコミュニティに参加する (Join Discord)**](#) *(URLを後でここに入力してください)*
-
-### 2️⃣ Download Aki's Original PDFs (オリジナルPDF教材をダウンロード)
-Download your practical JLPT mock exams and materials here.  
-Akiオリジナルの実践的なJLPT教材（PDF）はこちらからダウンロードできます。  
-👉 [💡 **PDF教材をダウンロードする (Download PDFs)**](#) *(URLを後でここに入力してください)*
-
-### 3️⃣ Claim Your 10,000 VRB Tokens (トークンの受け取りについて)
-To receive your 10,000 VRB tokens, please join the Discord server and send a Direct Message (DM) to "Aki" with your MetaMask wallet address.  
-10,000 VRBトークンを受け取るために、Discordに参加後、ファウンダーの「Aki」宛にあなたのMetaMaskウォレットアドレスをDM（ダイレクトメッセージ）で送信してください。
-
-**🦊 スマホ版MetaMaskでのVRBトークンの追加方法 (How to import VRB to MetaMask Mobile):**
-1. MetaMaskアプリを開き、ネットワークが「**Amoy Testnet (Polygon)**」になっているか確認します。
-2. 「トークンをインポート (Import tokens)」をタップします。
-3. 「カスタムトークン (Custom token)」タブを選択します。
-4. 以下の「トークンコントラクトアドレス」をコピーして貼り付けてください（シンボルはVRB、桁数は18で自動入力されます）。
-
-▶︎ **トークンコントラクトアドレス (Token Contract Address):**
-`0x5bE1bAD03Da337E576afb1BDbeE44d7546e6aed9`
-
----
-
-🌟 **Your Lifetime Premium Access is now active. Let's revolutionize Japanese learning together!**  
-🌟 **あなたの一生涯プレミアムアクセス権は有効化されました。一緒に日本語学習の未来を作りましょう！**
-""")
+if is_success:
+    st.markdown("""
+    Thank you for your support, Aki and the team are thrilled to have you! Please follow the 3 steps below to claim your Founder's Pack rewards:  
+    サポートありがとうございます！以下の3つのステップで、ファウンダー特典を受け取ってください。
+    
+    ---
+    
+    ### 1️⃣ Join the Exclusive Discord Community (限定コミュニティに参加)
+    Join our Discord server to get early access to the Beta app and chat with the team!  
+    まずは以下のリンクから、ファウンダー限定のDiscordサーバーに参加してください！ベータ版のテストやフィードバックはここで行います。  
+    👉 [💡 **Discordコミュニティに参加する (Join Discord)**](#) *(URLを後でここに入力してください)*
+    
+    ### 2️⃣ Download Aki's Original PDFs (オリジナルPDF教材をダウンロード)
+    Download your practical JLPT mock exams and materials here.  
+    Akiオリジナルの実践的なJLPT教材（PDF）はこちらからダウンロードできます。  
+    👉 [💡 **PDF教材をダウンロードする (Download PDFs)**](#) *(URLを後でここに入力してください)*
+    
+    ### 3️⃣ Claim Your 10,000 VRB Tokens (トークンの受け取りについて)
+    To receive your 10,000 VRB tokens, please join the Discord server and send a Direct Message (DM) to "Aki" with your MetaMask wallet address.  
+    10,000 VRBトークンを受け取るために、Discordに参加後、ファウンダーの「Aki」宛にあなたのMetaMaskウォレットアドレスをDM（ダイレクトメッセージ）で送信してください。
+    
+    **🦊 スマホ版MetaMaskでのVRBトークンの追加方法 (How to import VRB to MetaMask Mobile):**
+    1. MetaMaskアプリを開き、ネットワークが「**Amoy Testnet (Polygon)**」になっているか確認します。
+    2. 「トークンをインポート (Import tokens)」をタップします。
+    3. 「カスタムトークン (Custom token)」タブを選択します。
+    4. 以下の「トークンコントラクトアドレス」をコピーして貼り付けてください（シンボルはVRB、桁数は18で自動入力されます）。
+    
+    ▶︎ **トークンコントラクトアドレス (Token Contract Address):**
+    `0x5bE1bAD03Da337E576afb1BDbeE44d7546e6aed9`
+    
+    ---
+    
+    🌟 **Your Lifetime Premium Access is now active. Let's revolutionize Japanese learning together!**  
+    🌟 **あなたの一生涯プレミアムアクセス権は有効化されました。一緒に日本語学習の未来を作りましょう！**
+    """)
+else:
+    st.write("ご登録ありがとうございます。")
 
 st.write("---")
 st.subheader("ユーザー登録 (User Registration)")
