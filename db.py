@@ -21,8 +21,20 @@ def init_db():
     conn = get_connection()
     c = conn.cursor()
     
-    # We don't create the table here assuming the main app already did,
-    # but we can ensure our columns exist just in case.
+    # Create the table if it's running locally/standalone and doesn't exist
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id TEXT PRIMARY KEY,
+            email TEXT UNIQUE NOT NULL,
+            username TEXT NOT NULL,
+            password_hash TEXT NOT NULL,
+            vrb_balance INTEGER DEFAULT 0,
+            nationality TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    
+    # Ensure legacy columns exist just in case
     c.execute("PRAGMA table_info(users)")
     columns = [column[1] for column in c.fetchall()]
     
