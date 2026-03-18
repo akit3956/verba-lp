@@ -152,22 +152,22 @@ with col_cta_right:
         # Classic HTML Form for PayPal (bypasses iframe restrictions by opening in a new tab)
         # When payment is complete, PayPal will show a "Return to Merchant" button pointing to the return URL.
         st.markdown(f"""
-        <div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
-          <style>.paypal-btn{{text-align:center;border:none;border-radius:0.25rem;min-width:11.625rem;padding:0 2rem;height:2.625rem;font-weight:bold;background-color:#FFD140;color:#000000;font-family:"Helvetica Neue",Arial,sans-serif;font-size:1rem;line-height:1.25rem;cursor:pointer;}}</style>
-          <form action="{paypal_url}" method="post" target="_blank" style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;">
-            <input type="hidden" name="cmd" value="_xclick" />
-            <input type="hidden" name="business" value="{paypal_business_email}" />
-            <input type="hidden" name="item_name" value="Verba Founder's Pack" />
-            <input type="hidden" name="amount" value="30.00" />
-            <input type="hidden" name="currency_code" value="USD" />
-            <input type="hidden" name="return" value="https://verba-lp.streamlit.app/?payment=success" />
-            
-            <input class="paypal-btn" type="submit" value="👉 Get Founder's Pack" />
-            <img src="https://www.paypalobjects.com/images/Debit_Credit_APM.svg" alt="cards" />
-            <section style="font-size: 0.75rem;"> Powered by <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-wordmark-color.svg" alt="paypal" style="height:0.875rem;vertical-align:middle;"/></section>
-          </form>
-        </div>
-        """, unsafe_allow_html=True)
+<div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+  <style>.paypal-btn{{text-align:center;border:none;border-radius:0.25rem;min-width:11.625rem;padding:0 2rem;height:2.625rem;font-weight:bold;background-color:#FFD140;color:#000000;font-family:"Helvetica Neue",Arial,sans-serif;font-size:1rem;line-height:1.25rem;cursor:pointer;}}</style>
+  <form action="{paypal_url}" method="post" target="_blank" style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;">
+    <input type="hidden" name="cmd" value="_xclick" />
+    <input type="hidden" name="business" value="{paypal_business_email}" />
+    <input type="hidden" name="item_name" value="Verba Founder's Pack" />
+    <input type="hidden" name="amount" value="30.00" />
+    <input type="hidden" name="currency_code" value="USD" />
+    <input type="hidden" name="return" value="https://verba-lp.streamlit.app/?payment=success" />
+    
+    <input class="paypal-btn" type="submit" value="👉 Get Founder's Pack" />
+    <img src="https://www.paypalobjects.com/images/Debit_Credit_APM.svg" alt="cards" />
+    <section style="font-size: 0.75rem;"> Powered by <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-wordmark-color.svg" alt="paypal" style="height:0.875rem;vertical-align:middle;"/></section>
+  </form>
+</div>
+""", unsafe_allow_html=True)
 
         st.caption("*Recipient: Akis Create (@akis3956)")
     else:
