@@ -171,18 +171,18 @@ with col_cta_right:
                         // Hide the PayPal buttons
                         document.getElementById('paypal-button-container').style.display = 'none';
                         
-                        // Show success message and a manual redirect button (target="_top" escapes iframe)
+                        // Show success message and a manual redirect button (target="_blank" escapes iframe reliably)
                         const successDiv = document.createElement('div');
                         successDiv.innerHTML = `
                           <h3 style="color: #2e7d32; font-family: sans-serif; margin-bottom: 20px;">
                             ✅ 決済が完了しました！<br><span style="font-size: 0.8em; color: #555;">以下のボタンを押して特典を受け取ってください</span>
                           </h3>
-                          <a href="/?payment=success" target="_top" 
+                          <a href="/?payment=success" target="_blank" 
                              style="display: inline-block; background-color: #FFD140; color: #000; 
                                     padding: 15px 30px; text-decoration: none; font-weight: bold; 
                                     border-radius: 8px; font-family: sans-serif; font-size: 16px;
                                     box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background-color 0.3s;">
-                            次へ進む（登録画面へ） 👉
+                            次へ進む（登録画面へ） 👉<br><span style="font-size: 0.75em; font-weight: normal;">(新しいタブで開きます)</span>
                           </a>
                         `;
                         document.body.appendChild(successDiv);
