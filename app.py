@@ -148,7 +148,7 @@ with col_cta_right:
         st.markdown("""
         <div style="text-align: center; margin-top: 20px; margin-bottom: 10px;">
           <style>.pp-B6NDGVHL4H7B2{text-align:center;border:none;border-radius:0.25rem;min-width:11.625rem;padding:0 2rem;height:2.625rem;font-weight:bold;background-color:#FFD140;color:#000000;font-family:"Helvetica Neue",Arial,sans-serif;font-size:1rem;line-height:1.25rem;cursor:pointer;}</style>
-          <form action="https://www.paypal.com/ncp/payment/B6NDGVHL4H7B2" method="post" target="_top" style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;">
+          <form action="https://www.paypal.com/ncp/payment/B6NDGVHL4H7B2" method="post" target="_blank" style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;">
             <input class="pp-B6NDGVHL4H7B2" type="submit" value="👉 Get Founder's Pack" />
             <input type="hidden" name="return" value="https://verba-lp.streamlit.app/?status=success" />
             <img src=https://www.paypalobjects.com/images/Debit_Credit_APM.svg alt="cards" />
