@@ -9,31 +9,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- SUCCESS SCREEN LOGIC ---
-# Handle PayPal redirection success state
-is_success = st.query_params.get("status") == "success" or st.query_params.get("payment") == "success"
-
-if is_success:
-    st.balloons()
-    st.title("🎉 Thank you for your support!")
-    st.header("Your Founder's Pack is ready!")
-    
-    st.success("""
-    ### Next Steps to Claim Your Rewards:
-    
-    1. **Join Private Discord**: [Click here to Join](https://discord.gg/example)
-       - This is where we share development updates and exclusive founder roles.
-    2. **Complete Registration**: Use the link below to set up your account.
-       - You will need this to access the Beta app and your VRB tokens later.
-    
-    [👉 Go to Registration Page](Register)
-    """)
-    
-    if st.button("Back to Home"):
-        st.query_params.clear()
-        st.rerun()
-        
-    st.stop() # Skip the rest of the LP content
 # ------------------------------
 
 # Main Title Area
@@ -177,7 +152,7 @@ with col_cta_right:
                           <h3 style="color: #2e7d32; font-family: sans-serif; margin-bottom: 20px;">
                             ✅ 決済が完了しました！<br><span style="font-size: 0.8em; color: #555;">以下のボタンを押して特典を受け取ってください</span>
                           </h3>
-                          <a href="/?payment=success" target="_blank" 
+                          <a href="Register?payment=success" target="_blank" 
                              style="display: inline-block; background-color: #FFD140; color: #000; 
                                     padding: 15px 30px; text-decoration: none; font-weight: bold; 
                                     border-radius: 8px; font-family: sans-serif; font-size: 16px;

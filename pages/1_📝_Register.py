@@ -13,10 +13,17 @@ db.init_db()
 
 st.title("📝 会員登録 (Member Registration)")
 
-st.info("""
-🎉 **Founder's Packへのご参加ありがとうございます！**  
-決済が完了しました。以下のステップに従って、特典の受け取りとアカウント作成を行ってください。
-""")
+# Handle post-payment celebration
+is_success = st.query_params.get("payment") == "success" or st.query_params.get("status") == "success"
+
+if is_success:
+    st.balloons()
+    st.info("""
+    🎉 **Founder's Packへのご参加ありがとうございます！**  
+    決済が完了しました。以下のステップに従って、特典の受け取りとアカウント作成を行ってください。
+    """)
+else:
+    st.info("新規アカウントを作成してください。")
 
 st.markdown("""
 Thank you for your support, Aki and the team are thrilled to have you! Please follow the 3 steps below to claim your Founder's Pack rewards:  
