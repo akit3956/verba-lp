@@ -79,7 +79,7 @@ st.divider()
 
 # Roadmap Section
 st.subheader("🗺️ Roadmap: The Future We Build")
-st.write("Your support ($30) will be the driving force of this journey.")
+st.write("Your support ($1) will be the driving force of this journey.")
 
 col1, col2, col3, col4 = st.columns(4)
 with col1:
