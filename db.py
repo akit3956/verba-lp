@@ -70,6 +70,9 @@ def create_user(email, username, password, nationality):
         if not email or not username or not password or not nationality:
             return False, "すべての項目を入力してください。"
             
+        email = email.strip()
+        username = username.strip()
+            
         # Check if email exists
         c.execute("SELECT * FROM users WHERE email = %s", (email,))
         existing = c.fetchone()
