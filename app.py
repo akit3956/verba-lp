@@ -167,8 +167,25 @@ with col_cta_right:
                     onApprove: function(data, actions) {{
                       return actions.order.capture().then(function(details) {{
                         console.log("Payment successful:", details);
-                        // Mandatory explicit redirect per user request
-                        window.parent.location.href = 'https://verba-lp.streamlit.app/?payment=success';
+                        
+                        // Hide the PayPal buttons
+                        document.getElementById('paypal-button-container').style.display = 'none';
+                        
+                        // Show success message and a manual redirect button (target="_top" escapes iframe)
+                        const successDiv = document.createElement('div');
+                        successDiv.innerHTML = `
+                          <h3 style="color: #2e7d32; font-family: sans-serif; margin-bottom: 20px;">
+                            ✅ 決済が完了しました！<br><span style="font-size: 0.8em; color: #555;">以下のボタンを押して特典を受け取ってください</span>
+                          </h3>
+                          <a href="/?payment=success" target="_top" 
+                             style="display: inline-block; background-color: #FFD140; color: #000; 
+                                    padding: 15px 30px; text-decoration: none; font-weight: bold; 
+                                    border-radius: 8px; font-family: sans-serif; font-size: 16px;
+                                    box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background-color 0.3s;">
+                            次へ進む（登録画面へ） 👉
+                          </a>
+                        `;
+                        document.body.appendChild(successDiv);
                       }});
                     }}
                   }}).render('#paypal-button-container');
