@@ -143,11 +143,11 @@ with col_cta_right:
     agree = st.checkbox("I agree to the Terms of Service and Privacy Policy")
     
     if agree:
-        # User defined Client ID from Streamlit Secrets or use 'test' default for Sandbox
+        # PayPal REST API Client ID (Sandbox or Live) uses st.secrets. 
+        # Falls back to 'test' which enables Sandbox mode.
         paypal_client_id = st.secrets.get("PAYPAL_CLIENT_ID", "test")
         
         # PayPal Smart Buttons JS SDK Component
-        # Configured for Sandbox testing. Redirects parent window on approval.
         components.html(
             f"""
             <div style="text-align: center; margin-top: 20px;">
@@ -166,15 +166,41 @@ with col_cta_right:
                     }},
                     onApprove: function(data, actions) {{
                       return actions.order.capture().then(function(details) {{
-                        // Redirect the MAIN Streamlit window, breaking out of the iframe
-                        window.parent.location.href = 'https://verba-lp.streamlit.app/?payment=success';
+                        console.log("Payment successful:", details);
+                        
+                        // Dynamically determine the app URL (localhost or deployed)
+                        let targetUrl = 'https://verba-lp.streamlit.app/?payment=success';
+                        try {{
+                          if (window.top && window.top.location && window.top.location.origin) {{
+                            // If running locally, this ensures we redirect to localhost instead of the live app
+                            targetUrl = window.top.location.origin + '/?payment=success';
+                          }}
+                        }} catch (err) {{
+                          console.log("Cross-origin iframe detected, using default targetUrl.");
+                        }}
+                        
+                        // Robust Redirection: Try multiple methods to escape the Streamlit iframe sandbox
+                        try {{
+                          window.top.location.href = targetUrl;
+                        }} catch (e1) {{
+                          try {{
+                            window.parent.location.href = targetUrl;
+                          }} catch (e2) {{
+                            // Ultimate fallback for strict iframes: simulated click on a target="_top" link
+                            const a = document.createElement("a");
+                            a.href = targetUrl;
+                            a.target = "_top";
+                            document.body.appendChild(a);
+                            a.click();
+                          }}
+                        }}
                       }});
                     }}
                   }}).render('#paypal-button-container');
                 </script>
             </div>
             """,
-            height=200,
+            height=250, # Increased height slightly to ensure popup renders properly
             scrolling=False
         )
         st.caption("*Recipient: Akis Create (@akis3956)")
