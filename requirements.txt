@@ -1,3 +1,4 @@
 streamlit
 pillow
 bcrypt
+psycopg2-binary
