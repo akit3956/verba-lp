@@ -143,30 +143,41 @@ with col_cta_right:
     agree = st.checkbox("I agree to the Terms of Service and Privacy Policy")
     
     if agree:
-        # Get PayPal Configuration from Secrets (defaults to Sandbox testing)
-        paypal_env = st.secrets.get("PAYPAL_ENV", "sandbox") 
-        paypal_business_email = st.secrets.get("PAYPAL_BUSINESS_EMAIL", "sb-youraccount@business.example.com")
+        # Get PayPal Client ID from Secrets (defaults to 'test' for Sandbox testing)
+        paypal_client_id = st.secrets.get("PAYPAL_CLIENT_ID", "test")
         
-        paypal_url = "https://www.sandbox.paypal.com/cgi-bin/webscr" if paypal_env == "sandbox" else "https://www.paypal.com/cgi-bin/webscr"
-        
-        # Classic HTML Form for PayPal (bypasses iframe restrictions by opening in a new tab)
-        # When payment is complete, PayPal will show a "Return to Merchant" button pointing to the return URL.
-        st.markdown(f"""
-<div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
-<style>.paypal-btn{{text-align:center;border:none;border-radius:0.25rem;min-width:11.625rem;padding:0 2rem;height:2.625rem;font-weight:bold;background-color:#FFD140;color:#000000;font-family:"Helvetica Neue",Arial,sans-serif;font-size:1rem;line-height:1.25rem;cursor:pointer;}}</style>
-<form action="{paypal_url}" method="post" target="_blank" style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;">
-<input type="hidden" name="cmd" value="_xclick" />
-<input type="hidden" name="business" value="{paypal_business_email}" />
-<input type="hidden" name="item_name" value="Verba Founder's Pack" />
-<input type="hidden" name="amount" value="30.00" />
-<input type="hidden" name="currency_code" value="USD" />
-<input type="hidden" name="return" value="https://verba-lp.streamlit.app/?payment=success" />
-<input class="paypal-btn" type="submit" value="👉 Get Founder's Pack" />
-<img src="https://www.paypalobjects.com/images/Debit_Credit_APM.svg" alt="cards" />
-<section style="font-size: 0.75rem;"> Powered by <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-wordmark-color.svg" alt="paypal" style="height:0.875rem;vertical-align:middle;"/></section>
-</form>
-</div>
-""", unsafe_allow_html=True)
+        # PayPal Smart Buttons JS SDK Component
+        components.html(
+            f"""
+            <div style="text-align: center; margin-top: 20px;">
+                <!-- Load PayPal JS SDK with Client ID -->
+                <script src="https://www.paypal.com/sdk/js?client-id={paypal_client_id}&currency=USD"></script>
+                <div id="paypal-button-container"></div>
+                <script>
+                  paypal.Buttons({{
+                    createOrder: function(data, actions) {{
+                      return actions.order.create({{
+                        purchase_units: [{{
+                          amount: {{
+                            value: '30.00'
+                          }}
+                        }}]
+                      }});
+                    }},
+                    onApprove: function(data, actions) {{
+                      return actions.order.capture().then(function(details) {{
+                        console.log("Payment successful:", details);
+                        // Mandatory explicit redirect per user request
+                        window.parent.location.href = 'https://verba-lp.streamlit.app/?payment=success';
+                      }});
+                    }}
+                  }}).render('#paypal-button-container');
+                </script>
+            </div>
+            """,
+            height=250,
+            scrolling=False
+        )
 
         st.caption("*Recipient: Akis Create (@akis3956)")
     else:
