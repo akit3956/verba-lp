@@ -117,63 +117,76 @@ with col_cta_right:
     
     agree = st.checkbox("I agree to the Terms of Service and Privacy Policy")
     
-    if agree:
-        # Get PayPal Client ID from Secrets (defaults to 'test' for Sandbox testing)
-        paypal_client_id = st.secrets.get("PAYPAL_CLIENT_ID", "test")
-        
-        # PayPal Smart Buttons JS SDK Component
-        components.html(
-            f"""
-            <div style="text-align: center; margin-top: 20px;">
-                <!-- Load PayPal JS SDK with Client ID -->
-                <script src="https://www.paypal.com/sdk/js?client-id={paypal_client_id}&currency=USD"></script>
-                <div id="paypal-button-container"></div>
-                <script>
-                  paypal.Buttons({{
-                    createOrder: function(data, actions) {{
-                      return actions.order.create({{
-                        purchase_units: [{{
-                          amount: {{
-                            value: '30.00'
-                          }}
-                        }}]
-                      }});
-                    }},
-                    onApprove: function(data, actions) {{
-                      return actions.order.capture().then(function(details) {{
-                        console.log("Payment successful:", details);
-                        
-                        // Hide the PayPal buttons
-                        document.getElementById('paypal-button-container').style.display = 'none';
-                        
-                        // Show success message and a manual redirect button (target="_blank" escapes iframe reliably)
-                        const successDiv = document.createElement('div');
-                        successDiv.innerHTML = `
-                          <h3 style="color: #2e7d32; font-family: sans-serif; margin-bottom: 20px;">
-                            ✅ 決済が完了しました！<br><span style="font-size: 0.8em; color: #555;">以下のボタンを押して特典を受け取ってください</span>
-                          </h3>
-                          <a href="Register?payment=success" target="_blank" 
-                             style="display: inline-block; background-color: #FFD140; color: #000; 
-                                    padding: 15px 30px; text-decoration: none; font-weight: bold; 
-                                    border-radius: 8px; font-family: sans-serif; font-size: 16px;
-                                    box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background-color 0.3s;">
-                            次へ進む（登録画面へ） 👉<br><span style="font-size: 0.75em; font-weight: normal;">(新しいタブで開きます)</span>
-                          </a>
-                        `;
-                        document.body.appendChild(successDiv);
-                      }});
-                    }}
-                  }}).render('#paypal-button-container');
-                </script>
-            </div>
-            """,
-            height=250,
-            scrolling=False
-        )
+    if not agree:
+        st.warning("⚠️ 決済を進めるには、上記の利用規約とプライバシーポリシーに同意してください。 (Agreement is required to proceed.)")
 
-        st.caption("*Recipient: Akis Create (@akis3956)")
-    else:
-        st.warning("⚠️ Agreement is required to proceed.")
+    # Get PayPal Client ID from Secrets (defaults to 'test' for Sandbox testing)
+    paypal_client_id = st.secrets.get("PAYPAL_CLIENT_ID", "test")
+    
+    # Inject JavaScript boolean based on the Streamlit checkbox
+    js_agreed = "true" if agree else "false"
+    
+    # PayPal Smart Buttons JS SDK Component
+    # We display the component regardless of the 'agree' state, 
+    # but use PayPal's onClick function to enforce the agreement.
+    components.html(
+        f"""
+        <div style="text-align: center; margin-top: 20px;">
+            <!-- Load PayPal JS SDK with Client ID -->
+            <script src="https://www.paypal.com/sdk/js?client-id={paypal_client_id}&currency=USD"></script>
+            <div id="paypal-button-container"></div>
+            <script>
+              paypal.Buttons({{
+                onClick: function(data, actions) {{
+                  // Show an alert and prevent payment popup if they try to click without agreeing
+                  if (!{js_agreed}) {{
+                    alert("⚠️ 決済に進むには、「利用規約とプライバシーポリシーに同意します」のチェックボックスにチェックを入れてください。\\n\\nPlease check 'I agree to the Terms of Service and Privacy Policy' above first.");
+                    return actions.reject();
+                  }}
+                  return actions.resolve();
+                }},
+                createOrder: function(data, actions) {{
+                  return actions.order.create({{
+                    purchase_units: [{{
+                      amount: {{
+                        value: '30.00'
+                      }}
+                    }}]
+                  }});
+                }},
+                onApprove: function(data, actions) {{
+                  return actions.order.capture().then(function(details) {{
+                    console.log("Payment successful:", details);
+                    
+                    // Hide the PayPal buttons
+                    document.getElementById('paypal-button-container').style.display = 'none';
+                    
+                    // Show success message and a manual redirect button (target="_blank" escapes iframe reliably)
+                    const successDiv = document.createElement('div');
+                    successDiv.innerHTML = `
+                      <h3 style="color: #2e7d32; font-family: sans-serif; margin-bottom: 20px;">
+                        ✅ 決済が完了しました！<br><span style="font-size: 0.8em; color: #555;">以下のボタンを押して特典を受け取ってください</span>
+                      </h3>
+                      <a href="Register?payment=success" target="_blank" 
+                         style="display: inline-block; background-color: #FFD140; color: #000; 
+                                padding: 15px 30px; text-decoration: none; font-weight: bold; 
+                                border-radius: 8px; font-family: sans-serif; font-size: 16px;
+                                box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background-color 0.3s;">
+                        次へ進む（登録画面へ） 👉<br><span style="font-size: 0.75em; font-weight: normal;">(新しいタブで開きます)</span>
+                      </a>
+                    `;
+                    document.body.appendChild(successDiv);
+                  }});
+                }}
+              }}).render('#paypal-button-container');
+            </script>
+        </div>
+        """,
+        height=250,
+        scrolling=False
+    )
+
+    st.caption("*Recipient: Akis Create (@akis3956)")
 
 st.divider()
 
