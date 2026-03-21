@@ -68,8 +68,8 @@ with col1:
 with col2:
     st.markdown("### 🛠️ Q2 2026")
     st.caption("Development")
-    st.info("📱 Beta App Release")
-    st.write("Release prototype app for founders only")
+    st.info("🚀 Public Beta & L2E Engine Launch")
+    st.write("Release of the Verba Web App with 3 membership tiers (Standard / Pro / Founders). Implementation of the \"VRB Store\" where users can unlock premium JLPT mock exams using earned tokens.")
 
 with col3:
     st.markdown("### 🌑 Q3 2026")
@@ -85,108 +85,102 @@ with col4:
 
 st.divider()
 
-# Founder's Pack (CTA)
-st.header("⚡ Join Now: Founder's Pack")
-st.warning("⚠️ This offer is limited to the first 100 people. The value could triple or more upon listing.")
+# Pricing Plans (CTA)
+st.header("⚡ Choose Your Plan")
+st.write("Verbaで制限なく学習を進めるためのプランを選んでください。(Choose a plan to fully unlock Verba.)")
 
-col_cta_left, col_cta_right = st.columns([1, 1])
+st.markdown("<br>", unsafe_allow_html=True)
+st.info("💡 Please review the Terms of Service and Privacy Policy before proceeding.")
+st.page_link("pages/2_📜_Terms_&_Privacy.py", label="Read the full Terms of Service and Privacy Policy", icon="📜")
+agree = st.checkbox("I agree to the Terms of Service and Privacy Policy")
 
-with col_cta_left:
-    st.markdown("<div style='height: 60px;'></div>", unsafe_allow_html=True)
-    _, img_col = st.columns([0.15, 0.85]) 
-    with img_col:
-        st.image("vrb_coin.png", width=330)
+if not agree:
+    st.warning("⚠️ 決済を進めるには、上記の利用規約とプライバシーポリシーに同意してください。 (Agreement is required to proceed.)")
 
-with col_cta_right:
-    st.subheader("🚀 Founder's Pack (Early Access)")
-    st.write("We need your support to continue development. Early supporters will receive the biggest rewards.")
+# Get PayPal Client ID
+paypal_client_id = st.secrets.get("PAYPAL_CLIENT_ID", "test")
+js_agreed = "true" if agree else "false"
 
-    st.markdown("##### 【Pack Contents】")
-    st.markdown("""
-    - ✅ **Lifetime Premium Access** (No monthly fees forever)
-    - ✅ **10,000 VRB Tokens** (Airdropped in future)
-    - ✅ **Original PDF Textbooks by Aki** (Practical Japanese materials)
-    - ✅ **Access to Dev Community** (Discord, etc.)
-    - ❤️ **Deepest Gratitude from Aki**
-    """)
-    
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.info("💡 Please review the Terms of Service and Privacy Policy before proceeding.")
-    st.page_link("pages/2_📜_Terms_&_Privacy.py", label="Read the full Terms of Service and Privacy Policy", icon="📜")
-    st.markdown("<br>", unsafe_allow_html=True)
-    
-    agree = st.checkbox("I agree to the Terms of Service and Privacy Policy")
-    
-    if not agree:
-        st.warning("⚠️ 決済を進めるには、上記の利用規約とプライバシーポリシーに同意してください。 (Agreement is required to proceed.)")
+col_std, col_pro, col_founder = st.columns(3)
 
-    # Get PayPal Client ID from Secrets (defaults to 'test' for Sandbox testing)
-    paypal_client_id = st.secrets.get("PAYPAL_CLIENT_ID", "test")
-    
-    # Inject JavaScript boolean based on the Streamlit checkbox
-    js_agreed = "true" if agree else "false"
-    
-    # PayPal Smart Buttons JS SDK Component
-    # We display the component regardless of the 'agree' state, 
-    # but use PayPal's onClick function to enforce the agreement.
+def render_paypal_button(container_id, amount, plan_name, redirect_url):
     components.html(
         f"""
-        <div style="text-align: center; margin-top: 20px;">
-            <!-- Load PayPal JS SDK with Client ID -->
+        <div style="text-align: center; margin-top: 10px;">
             <script src="https://www.paypal.com/sdk/js?client-id={paypal_client_id}&currency=USD"></script>
-            <div id="paypal-button-container"></div>
+            <div id="{container_id}"></div>
             <script>
               paypal.Buttons({{
+                style: {{ shape: 'rect', color: 'gold', layout: 'vertical', label: 'pay' }},
                 onClick: function(data, actions) {{
-                  // Show an alert and prevent payment popup if they try to click without agreeing
                   if (!{js_agreed}) {{
-                    alert("⚠️ 決済に進むには、「利用規約とプライバシーポリシーに同意します」のチェックボックスにチェックを入れてください。\\n\\nPlease check 'I agree to the Terms of Service and Privacy Policy' above first.");
+                    alert("⚠️ 決済に進むには、「利用規約とプライバシーポリシーに同意します」のチェックボックスにチェックを入れてください。");
                     return actions.reject();
                   }}
                   return actions.resolve();
                 }},
                 createOrder: function(data, actions) {{
                   return actions.order.create({{
-                    purchase_units: [{{
-                      amount: {{
-                        value: '30.00'
-                      }}
-                    }}]
+                    purchase_units: [{{ amount: {{ value: '{amount}' }} }}]
                   }});
                 }},
                 onApprove: function(data, actions) {{
                   return actions.order.capture().then(function(details) {{
-                    console.log("Payment successful:", details);
-                    
-                    // Hide the PayPal buttons
-                    document.getElementById('paypal-button-container').style.display = 'none';
-                    
-                    // Show success message and a manual redirect button (target="_blank" escapes iframe reliably)
+                    document.getElementById('{container_id}').style.display = 'none';
                     const successDiv = document.createElement('div');
                     successDiv.innerHTML = `
-                      <h3 style="color: #2e7d32; font-family: sans-serif; margin-bottom: 20px;">
-                        ✅ 決済が完了しました！<br><span style="font-size: 0.8em; color: #555;">以下のボタンを押して特典を受け取ってください</span>
-                      </h3>
-                      <a href="Register?payment=success" target="_blank" 
+                      <h4 style="color: #2e7d32; font-family: sans-serif;">✅ 決済完了！</h4>
+                      <a href="{redirect_url}" target="_blank" 
                          style="display: inline-block; background-color: #FFD140; color: #000; 
-                                padding: 15px 30px; text-decoration: none; font-weight: bold; 
-                                border-radius: 8px; font-family: sans-serif; font-size: 16px;
-                                box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background-color 0.3s;">
-                        次へ進む（登録画面へ） 👉<br><span style="font-size: 0.75em; font-weight: normal;">(新しいタブで開きます)</span>
+                                padding: 10px 20px; text-decoration: none; font-weight: bold; 
+                                border-radius: 8px; font-family: sans-serif; font-size: 14px;
+                                box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        登録画面へ 👉
                       </a>
                     `;
                     document.body.appendChild(successDiv);
                   }});
                 }}
-              }}).render('#paypal-button-container');
+              }}).render('#{container_id}');
             </script>
         </div>
         """,
-        height=250,
+        height=200,
         scrolling=False
     )
 
-    st.caption("*Recipient: Akis Create (@akis3956)")
+with col_std:
+    st.markdown("### 🥉 Standard")
+    st.markdown("**( $4.99 / 月 )**")
+    st.markdown("""
+    - ✅ 基本機能のみ (Basic features)
+    - ✅ 一問一答・小テスト
+    - 🔒 全項目・模擬試験は利用不可
+    """)
+    st.markdown("<br>", unsafe_allow_html=True)
+    render_paypal_button("paypal-btn-std", "4.99", "standard", "Register?payment=success&plan=standard")
+
+with col_pro:
+    st.markdown("### 🥈 Pro")
+    st.markdown("**( $12.99 / 月 )**")
+    st.markdown("""
+    - ✅ **全機能解放** (All features)
+    - ✅ 模擬試験（AI画像認識）
+    - ✅ 優先サポート
+    """)
+    st.markdown("<br>", unsafe_allow_html=True)
+    render_paypal_button("paypal-btn-pro", "12.99", "pro", "Register?payment=success&plan=pro")
+
+with col_founder:
+    st.markdown("### 🥇 Founder's Club")
+    st.markdown("**( $30.00 / 買い切り )**")
+    st.warning("限定100名 (Limited 100)")
+    st.markdown("""
+    - ✅ **一生涯全機能解放**
+    - ✅ **10,000 VRB 初期ボーナス**
+    - ✅ 限定Discord参加権
+    """)
+    render_paypal_button("paypal-btn-founder", "30.00", "founder", "Register?payment=success&plan=founder")
 
 st.divider()
 

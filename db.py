@@ -31,6 +31,7 @@ def init_db():
             password_hash TEXT NOT NULL,
             vrb_balance INTEGER DEFAULT 0,
             nationality TEXT,
+            plan_type TEXT DEFAULT 'standard',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
@@ -55,6 +56,12 @@ def init_db():
         except:
             pass
             
+    if "plan_type" not in columns:
+        try:
+            c.execute("ALTER TABLE users ADD COLUMN plan_type TEXT DEFAULT 'standard'")
+        except:
+            pass
+            
     conn.commit()
     c.close()
     conn.close()
@@ -62,7 +69,7 @@ def init_db():
 def hash_password(password):
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
-def create_user(email, username, password, nationality):
+def create_user(email, username, password, nationality, plan_type='standard'):
     try:
         conn = get_connection()
         c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -84,12 +91,13 @@ def create_user(email, username, password, nationality):
             
         user_id = str(uuid.uuid4())
         hashed_pw = hash_password(password)
-        # Founder's Pack gets 10000 VRB
-        initial_bonus = 10000
+        
+        # Founder's Pack gets 10000 VRB, others get 0
+        initial_bonus = 10000 if plan_type == 'founder' else 0
         
         c.execute(
-            'INSERT INTO users (id, email, username, password_hash, vrb_balance, nationality) VALUES (%s, %s, %s, %s, %s, %s)',
-            (user_id, email, username, hashed_pw, initial_bonus, nationality)
+            'INSERT INTO users (id, email, username, password_hash, vrb_balance, nationality, plan_type) VALUES (%s, %s, %s, %s, %s, %s, %s)',
+            (user_id, email, username, hashed_pw, initial_bonus, nationality, plan_type)
         )
         conn.commit()
         return True, "登録が完了しました！学習アプリへログインできます。"

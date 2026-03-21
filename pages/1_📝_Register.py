@@ -15,53 +15,46 @@ st.title("📝 会員登録 (Member Registration)")
 
 # Handle post-payment celebration
 is_success = st.query_params.get("payment") == "success" or st.query_params.get("status") == "success"
+plan = st.query_params.get("plan", "standard")
 
 if is_success:
     st.balloons()
-    st.info("""
-    🎉 **Founder's Packへのご参加ありがとうございます！**  
-    決済が完了しました。以下のステップに従って、特典の受け取りとアカウント作成を行ってください。
-    """)
+    if plan == "founder":
+        st.info("""
+        🎉 **Founder's Packへのご参加ありがとうございます！ (Welcome to Founder's Club!)**  
+        決済が完了しました。以下のステップに従って、10,000 VRBのボーナス獲得とアカウント作成を行ってください。
+        """)
+    elif plan == "pro":
+        st.info("""
+        🎉 **Proプランへのアップグレードありがとうございます！ (Welcome to Pro Plan!)**  
+        決済が完了しました。無制限で全機能をご利用いただけます。アカウントを作成してください。
+        """)
+    else:
+        st.info("""
+        🎉 **Standardプランの決済が完了しました！ (Welcome to Standard!)**  
+        アカウントを作成して、学習を始めましょう。
+        """)
 else:
-    st.info("新規アカウントを作成してください。")
+    st.info("新規アカウントを作成してください。 (Please create a new account.)")
 
-if is_success:
+if is_success and plan == "founder":
     st.markdown("""
-    Thank you for your support, Aki and the team are thrilled to have you! Please follow the 3 steps below to claim your Founder's Pack rewards:  
-    サポートありがとうございます！以下の3つのステップで、ファウンダー特典を受け取ってください。
+    Thank you for your support! As a Founder, please follow the steps below to claim your rewards:  
+    サポートありがとうございます！以下のステップで、ファウンダー特典を受け取ってください。
     
     ---
     
-    ### 1️⃣ Join the Exclusive Discord Community (限定コミュニティに参加)
-    Join our Discord server to get early access to the Beta app and chat with the team!  
-    まずは以下のリンクから、ファウンダー限定のDiscordサーバーに参加してください！ベータ版のテストやフィードバックはここで行います。  
-    👉 [💡 **Discordコミュニティに参加する (Join Discord)**](#) *(URLを後でここに入力してください)*
+    ### 1️⃣ Claim Your 10,000 VRB Tokens (トークンの受け取りについて)
+    To receive your 10,000 VRB tokens, please join the Discord server and send a DM to "Aki" with your MetaMask wallet address.  
+    10,000 VRBトークンを受け取るために、Discordに参加後、ファウンダーの「Aki」宛にあなたのMetaMaskウォレットアドレスをDMしてください。
     
-    ### 2️⃣ Download Aki's Original PDFs (オリジナルPDF教材をダウンロード)
-    Download your practical JLPT mock exams and materials here.  
-    Akiオリジナルの実践的なJLPT教材（PDF）はこちらからダウンロードできます。  
-    👉 [💡 **PDF教材をダウンロードする (Download PDFs)**](#) *(URLを後でここに入力してください)*
-    
-    ### 3️⃣ Claim Your 10,000 VRB Tokens (トークンの受け取りについて)
-    To receive your 10,000 VRB tokens, please join the Discord server and send a Direct Message (DM) to "Aki" with your MetaMask wallet address.  
-    10,000 VRBトークンを受け取るために、Discordに参加後、ファウンダーの「Aki」宛にあなたのMetaMaskウォレットアドレスをDM（ダイレクトメッセージ）で送信してください。
-    
-    **🦊 スマホ版MetaMaskでのVRBトークンの追加方法 (How to import VRB to MetaMask Mobile):**
+    **🦊 スマホ版MetaMaskでのVRBトークンの追加方法:**
     1. MetaMaskアプリを開き、ネットワークが「**Amoy Testnet (Polygon)**」になっているか確認します。
-    2. 「トークンをインポート (Import tokens)」をタップします。
-    3. 「カスタムトークン (Custom token)」タブを選択します。
-    4. 以下の「トークンコントラクトアドレス」をコピーして貼り付けてください（シンボルはVRB、桁数は18で自動入力されます）。
-    
-    ▶︎ **トークンコントラクトアドレス (Token Contract Address):**
-    `0x5bE1bAD03Da337E576afb1BDbeE44d7546e6aed9`
-    
+    2. 「トークンをインポート」し、「カスタムトークン」タブを選択します。
+    3. コントラクトアドレス: `0x5bE1bAD03Da337E576afb1BDbeE44d7546e6aed9`
     ---
-    
-    🌟 **Your Lifetime Premium Access is now active. Let's revolutionize Japanese learning together!**  
-    🌟 **あなたの一生涯プレミアムアクセス権は有効化されました。一緒に日本語学習の未来を作りましょう！**
+    🌟 **Your Lifetime Premium Access is now active!**  
     """)
-else:
-    st.write("ご登録ありがとうございます。")
 
 st.write("---")
 st.subheader("ユーザー登録 (User Registration)")
@@ -102,7 +95,7 @@ with st.form("register_form"):
         elif not nationality:
             st.warning("⚠️ 国籍を選択してください。(Please select your nationality.)")
         elif email and password:
-            success, message = db.create_user(email, username, password, nationality)
+            success, message = db.create_user(email, username, password, nationality, plan_type=plan)
             if success:
                 st.success(f"✅ {message} (Registration successful!)")
                 st.balloons()
